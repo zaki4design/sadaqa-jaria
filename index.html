@@ -1,220 +1,53 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>صدقة جارية</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Amiri&display=swap');
-
-:root{
-    --main:#2f8f6b;
-    --bg:#f7f9f8;
-    --card:#ffffff;
-    --text:#333;
-}
-
-body.dark{
-    --bg:#121212;
-    --card:#1e1e1e;
-    --text:#eee;
-}
-
-body {
-    font-family: 'Amiri', serif;
-    background: var(--bg);
-    margin: 0;
-    padding: 0;
-    color: var(--text);
-    transition: 0.3s;
-}
-
-.container {
-    max-width: 800px;
-    margin: 40px auto;
-    background: var(--card);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-}
-
-h1 {
-    text-align: center;
-    color: var(--main);
-}
-
-input {
-    width: 100%;
-    padding: 14px;
-    font-size: 18px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-bottom: 15px;
-}
-
-button {
-    width: 100%;
-    padding: 14px;
-    font-size: 18px;
-    border: none;
-    border-radius: 8px;
-    background-color: var(--main);
-    color: #fff;
-    cursor: pointer;
-    margin-bottom: 10px;
-}
-
-button.secondary{
-    background:#555;
-}
-
-button.small{
-    font-size:16px;
-    padding:10px;
-}
-
-.content {
-    margin-top: 30px;
-    display: none;
-    animation: fade 0.6s ease;
-}
-
-@keyframes fade{
-    from{opacity:0; transform:translateY(10px)}
-    to{opacity:1}
-}
-
-.ayah {
-    font-size: 22px;
-    line-height: 2.2;
-    margin-bottom: 25px;
-}
-
-.dua {
-    background: rgba(47,143,107,0.1);
-    padding: 20px;
-    border-radius: 12px;
-    font-size: 20px;
-    border-right: 5px solid var(--main);
-}
-
-.tasbeeh{
-    display:flex;
-    justify-content:space-between;
-    margin-top:20px;
-    gap:10px;
-}
-
-.counter{
-    background:var(--bg);
-    padding:15px;
-    border-radius:10px;
-    text-align:center;
-    flex:1;
-}
-
-.footer {
-    margin-top: 25px;
-    text-align: center;
-    font-size: 14px;
-    color: #888;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-    <h1>صدقة جارية على روح المتوفّى</h1>
-
-    <input type="text" id="name" placeholder="اكتب اسم المتوفّى كاملًا">
-
-    <button onclick="readQuran()">ابدأ القراءة</button>
-    <button class="secondary" onclick="sharePage()">مشاركة الصفحة</button>
-    <button class="small" onclick="toggleDark()">🌙 وضع ليلي</button>
-
-    <div class="content" id="content">
-        <div class="ayah">
-            ﴿ بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴾<br>
-            الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ<br>
-            الرَّحْمَٰنِ الرَّحِيمِ<br>
-            مَالِكِ يَوْمِ الدِّينِ<br>
-            إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ<br>
-            اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ<br>
-            صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ
-        </div>
-
-        <div class="ayah">
-            ﴿ قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝
-            لَمْ يَلِدْ وَلَمْ يُولَدْ ۝
-            وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ ﴾
-        </div>
-
-        <div class="dua" id="dua"></div>
-
-        <div class="tasbeeh">
-            <div class="counter">سبحان الله<br><span id="c1">0</span></div>
-            <div class="counter">الحمد لله<br><span id="c2">0</span></div>
-            <div class="counter">الله أكبر<br><span id="c3">0</span></div>
-        </div>
-
-        <button onclick="resetAll()">إعادة القراءة</button>
-    </div>
-
-    <div class="footer">
-        جعلها الله في ميزان حسناتكم 🤍
-    </div>
-</div>
-
 <script>
-let c1=0,c2=0,c3=0;
-
-document.querySelectorAll(".counter").forEach((el,i)=>{
-    el.onclick=()=>{
-        if(i===0) document.getElementById("c1").innerText=++c1;
-        if(i===1) document.getElementById("c2").innerText=++c2;
-        if(i===2) document.getElementById("c3").innerText=++c3;
+function readQuran() {
+    const name = document.getElementById("name").value.trim();
+    if (!name) {
+        alert("من فضلك اكتب اسم المتوفّى");
+        return;
     }
-});
 
-function readQuran(){
-    const name=document.getElementById("name").value.trim();
-    if(!name){alert("اكتب اسم المتوفّى");return;}
-    document.getElementById("content").style.display="block";
-    document.getElementById("dua").innerHTML=
-    `اللهم اغفر لـ <strong>${name}</strong>، وارحمه، وعافه، واعفُ عنه،
-    وأكرم نزله، ووسّع مدخله، واغسله بالماء والثلج والبرد،
-    ونقِّه من الخطايا كما نقيت الثوب الأبيض من الدنس،
-    وأدخله الجنة، وأعذه من عذاب القبر وعذاب النار.`;
+    document.getElementById("content").style.display = "block";
+    document.getElementById("dua").innerHTML =
+        `اللهم اغفر لـ <strong>${name}</strong>، وارحمه، وعافه، واعفُ عنه،
+        وأكرم نزله، ووسّع مدخله، واغسله بالماء والثلج والبرد،
+        ونقِّه من الخطايا كما نقيت الثوب الأبيض من الدنس،
+        وأدخله الجنة، وأعذه من عذاب القبر وعذاب النار.`;
 }
 
-function sharePage(){
-    if(navigator.share){
+// مشاركة برابط فيه الاسم
+function shareWithName() {
+    const name = document.getElementById("name").value.trim();
+    if (!name) {
+        alert("اكتب اسم المتوفّى الأول");
+        return;
+    }
+
+    const url =
+        window.location.origin +
+        window.location.pathname +
+        "?name=" +
+        encodeURIComponent(name);
+
+    if (navigator.share) {
         navigator.share({
-            title:"صدقة جارية",
-            text:"اقرأ الفاتحة وادعُ للمتوفّى",
-            url:location.href
+            title: "صدقة جارية",
+            text: `اقرأ الفاتحة على روح ${name}`,
+            url: url
         });
-    }else{
-        navigator.clipboard.writeText(location.href);
-        alert("تم نسخ رابط الصفحة");
+    } else {
+        navigator.clipboard.writeText(url);
+        alert("تم نسخ رابط الصدقة الجارية");
     }
 }
 
-function toggleDark(){
-    document.body.classList.toggle("dark");
-}
+// تحميل الاسم تلقائيًا من الرابط
+window.onload = function () {
+    const params = new URLSearchParams(window.location.search);
+    const nameFromUrl = params.get("name");
 
-function resetAll(){
-    document.getElementById("name").value="";
-    document.getElementById("content").style.display="none";
-    c1=c2=c3=0;
-    document.getElementById("c1").innerText=0;
-    document.getElementById("c2").innerText=0;
-    document.getElementById("c3").innerText=0;
-}
+    if (nameFromUrl) {
+        document.getElementById("name").value = nameFromUrl;
+        readQuran();
+    }
+};
 </script>
-
-</body>
-</html>
